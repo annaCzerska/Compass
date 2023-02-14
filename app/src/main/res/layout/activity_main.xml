@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/black"
+    tools:context=".MainActivity">
+
+
+    <ImageView
+        android:id="@+id/dial_compass"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/dial_compass"
+        app:tint="@color/white" />
+
+    <ImageView
+        android:id="@+id/arrow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@+id/dial_compass"
+        app:layout_constraintEnd_toEndOf="@+id/dial_compass"
+        app:layout_constraintStart_toStartOf="@+id/dial_compass"
+        app:srcCompat="@drawable/arrow_compass" />
+
+    <ImageView
+        android:id="@+id/plus_sign"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="3dp"
+        android:paddingTop="3dp"
+        android:paddingRight="3dp"
+        android:paddingBottom="3dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/plus_compass" />
+
+    <TextView
+        android:id="@+id/direction_txt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="7dp"
+        android:text="355° NW"
+        android:textSize="35dp"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toTopOf="@+id/arrow"
+        app:layout_constraintEnd_toEndOf="@+id/arrow"
+        app:layout_constraintStart_toStartOf="@+id/arrow" />
+
+    <ImageView
+        android:id="@+id/n_sign"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
+        app:layout_constraintEnd_toEndOf="@+id/dial_compass"
+        app:layout_constraintStart_toStartOf="@+id/dial_compass"
+        app:layout_constraintTop_toTopOf="@+id/dial_compass"
+        app:srcCompat="@drawable/n_compass" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
