@@ -54,13 +54,22 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
 
     }
-    float[] mGravity;
-    float[] mGeomagnetic;
+    float[] mGravity = new float[3];
+    float[] mGeomagnetic = new float[3];
     public void onSensorChanged(SensorEvent event) {
-        if(event.sensor.getType() == Sensor.TYPE_ACCELEROMETER)
-            mGravity = event.values;
-        if(event.sensor.getType() == Sensor.TYPE_MAGNETIC_FIELD)
+        final float alpha = 0.9f;
+        if(event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
+            //mGravity = event.values;
+            mGravity[0] = alpha * mGravity[0] + (1 - alpha) * event.values[0];
+            mGravity[1] = alpha * mGravity[1] + (1 - alpha) * event.values[1];
+            mGravity[2] = alpha * mGravity[2] + (1 - alpha) * event.values[2];
+
+        }
+        if(event.sensor.getType() == Sensor.TYPE_MAGNETIC_FIELD) {
             mGeomagnetic = event.values;
+
+
+        }
         if(mGravity != null && mGeomagnetic != null){
             float R[] = new float[9];
             float I[] = new float[9];
@@ -73,7 +82,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                 int degree = (int)azimuth_round;
                 direction_txt.setText(Integer.toString(degree) + '\u00B0' + " " + degreeConverter(degree));
 
-                RotateAnimation animation = new RotateAnimation(azimuth_current,-azimuth_round,Animation.RELATIVE_TO_SELF,0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+                RotateAnimation animation = new RotateAnimation(azimuth_current,-azimuth,Animation.RELATIVE_TO_SELF,0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
                 RotateAnimation animation_N = new RotateAnimation(azimuth_current,-azimuth,Animation.RELATIVE_TO_SELF,0.5f, Animation.RELATIVE_TO_SELF, 3.75f);
                 animation.setDuration(250);
                 animation.setRepeatCount(0);
