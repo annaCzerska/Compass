@@ -1,21 +1,29 @@
 package com.example.compass;
-
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
-
+import android.content.Context;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.hardware.camera2.CameraAccessException;
+import android.hardware.camera2.CameraManager;
+import android.os.Build;
 import android.os.Bundle;
+import android.view.View;
 import android.view.animation.Animation;
-import android.view.animation.LinearInterpolator;
 import android.view.animation.RotateAnimation;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.ToggleButton;
 
 public class MainActivity extends AppCompatActivity implements SensorEventListener {
     ImageView dial_compass, n_sign;
     TextView direction_txt;
+
+    private CameraManager cameraManager;
+    private String getCameraID;
+    ToggleButton toggleFlashlight_btn;
 
     private SensorManager mSensorManager;
     Sensor accelerometer;
@@ -33,6 +41,15 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
         if (getSupportActionBar() != null) {
             getSupportActionBar().hide();
+        }
+
+        toggleFlashlight_btn = findViewById(R.id.toggle_flashlight_btn);
+        cameraManager = (CameraManager) getSystemService(Context.CAMERA_SERVICE);
+
+        try {
+            getCameraID = cameraManager.getCameraIdList()[0];
+        } catch (CameraAccessException e) {
+            e.printStackTrace();
         }
 
         mSensorManager = (SensorManager)getSystemService(SENSOR_SERVICE);
@@ -119,5 +136,31 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             direction = " Northwest";
         }
         return direction;
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    public void toggleFlashLight(View view){
+        if(toggleFlashlight_btn.isChecked()){
+            try{
+                cameraManager.setTorchMode(getCameraID,true);
+            }catch(CameraAccessException e){
+                e.printStackTrace();
+            }
+        }else {
+            try{
+                cameraManager.setTorchMode(getCameraID,false);
+            }catch(CameraAccessException e){
+                e.printStackTrace();
+            }
+        }
+    }
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    public void finish(){
+        super.finish();
+        try{
+            cameraManager.setTorchMode(getCameraID,false);
+        }catch(CameraAccessException e){
+            e.printStackTrace();
+        }
     }
 }
