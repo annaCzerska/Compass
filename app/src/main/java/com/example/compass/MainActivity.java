@@ -19,7 +19,7 @@ import android.widget.ToggleButton;
 
 public class MainActivity extends AppCompatActivity implements SensorEventListener {
     ImageView dial_compass, n_sign;
-    TextView direction_txt;
+    TextView direction_txt, valMagneticField_txt;
 
     private CameraManager cameraManager;
     private String getCameraID;
@@ -38,6 +38,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         dial_compass = findViewById(R.id.dial_compass);
         n_sign = findViewById(R.id.n_sign);
         direction_txt = findViewById(R.id.direction_txt);
+        valMagneticField_txt = findViewById(R.id.val_magnetic_field_txt);
 
         if (getSupportActionBar() != null) {
             getSupportActionBar().hide();
@@ -97,7 +98,12 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                 azimuth = (float)Math.toDegrees(orientation[0]);
                 float azimuth_round = (azimuth+360)%360;
                 int degree = (int)azimuth_round;
+
+                double magnetic_filed_strength = Math.sqrt((mGeomagnetic[0]*mGeomagnetic[0])+(mGeomagnetic[1]*mGeomagnetic[1])+(mGeomagnetic[2]*mGeomagnetic[2]));
+                int magneticFiled = (int)magnetic_filed_strength;
+
                 direction_txt.setText(Integer.toString(degree) + '\u00B0' + " " + degreeConverter(degree));
+                valMagneticField_txt.setText(Integer.toString(magneticFiled) + " " +'\u00B5' + "T");
 
                 RotateAnimation animation = new RotateAnimation(azimuth_current,-azimuth,Animation.RELATIVE_TO_SELF,0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
                 RotateAnimation animation_N = new RotateAnimation(azimuth_current,-azimuth,Animation.RELATIVE_TO_SELF,0.5f, Animation.RELATIVE_TO_SELF, 3.75f);
